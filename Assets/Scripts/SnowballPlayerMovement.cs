@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class SnowballPlayerMovement : MonoBehaviour
 {
     private Rigidbody _rb;
-    [SerializeField] private float movementSpeed;
+    [SerializeField] private float speed;
+    [SerializeField] private float maximumSpeed;
 
     void Start()
     {
@@ -18,13 +20,13 @@ public class SnowballPlayerMovement : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
-        _rb.AddForce(Vector3.right * (horizontal * movementSpeed));
-        _rb.AddForce(Vector3.forward * (vertical * movementSpeed));
+        _rb.AddForce(Vector3.right * (horizontal * speed));
+        _rb.AddForce(Vector3.forward * (vertical * speed));
 
-        if (_rb.velocity.magnitude >= movementSpeed)
+        if (_rb.velocity.magnitude >= maximumSpeed)
         {
             var velocity = _rb.velocity;
-            float brakeSpeed = velocity.magnitude - movementSpeed; // calculate the speed decrease
+            float brakeSpeed = velocity.magnitude - maximumSpeed; // calculate the speed decrease
 
             Vector3 normalisedVelocity = velocity.normalized;
             Vector3 brakeVelocity = normalisedVelocity * brakeSpeed; // make the brake Vector3 value
